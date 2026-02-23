@@ -61,7 +61,50 @@ apt update && apt upgrade -y
 wget -qO- https://raw.githubusercontent.com/bigbluebutton/bbb-install/refs/heads/v3.0.x-release/bbb-install.sh | bash -s -- -v jammy-300 -s bbb.sirket.com -e admin@sirket.com -w -g
 ```
 
-## 2.4 Kurulum Sonrası (Post-Installation) Doğrulama
+## 2.4 Özel (Manuel) SSL/TLS Sertifikası Kurulumu
+
+Eğer Let's Encrypt kullanmak istemiyorsanız ve elinizde kurumsal olarak satın alınmış bir Wildcard (`*.sirket.com`), standart bir SSL sertifikanız ya da **Self-Signed (Kendinden İmzalı)** bir sertifikanız varsa, BigBlueButton'u SSL e-posta parametresi olmadan kurup sonradan sertifikalarınızı manuel tanımlayabilirsiniz.
+
+> [!WARNING]
+> **Self-Signed (Kendi İmzalı) Sertifikalar Hakkında Önemli Uyarı:** 
+> Manuel kurulum adımları self-signed sertifikalarınız için de birebir aynıdır. Ancak self-signed bir sertifika kullandığınızda, Chrome ve Firefox gibi modern tarayıcılar bağlantıyı "Güvensiz Bağlantı" (Not Secure) olarak işaretleyecektir. Bu durum, tarayıcının kullanıcıdan "Kamera ve Mikrofona Erişim İzni" **istememesine** ve WebRTC hataları (özellikle 1007 veya 1020) alınmasına yol açabilir. Sadece test ortamları için self-signed kullanılması tavsiye edilir.
+
+1. **Kurulumu SSL Parametresiz Yapmak:**
+Kurulum komutundan `-e admin@sirket.com` parametresini silerek (böylece Let's Encrypt tetiklenmez) kurun.
+
+2. **Sertifika Dosyalarını Sunucuya Kopyalamak:**
+Elinizdeki `.crt` (Fullchain) ve `.key` (Private Key) dosyalarını sunucuda `/etc/nginx/ssl/` (bu dizini kendiniz oluşturabilirsiniz) klasörüne atın.
+```bash
+sudo mkdir -p /etc/nginx/ssl
+# Dosyalarınızı SFTP/SCP ile bu klasöre atın (Örn: bbb.crt ve bbb.key)
+```
+
+3. **Nginx Konfigürasyonunu Düzenlemek:**
+Nginx'in BBB'yi sunarken sizin sertifikanızı kullanmasını sağlamak için konfigürasyon dosyasını açın:
+```bash
+sudo nano /etc/nginx/sites-available/bigbluebutton
+```
+İçindeki `ssl_certificate` ve `ssl_certificate_key` satırlarını kendi dosyalarınızın yoluyla değiştirin:
+```nginx
+  ssl_certificate /etc/nginx/ssl/bbb.crt;
+  ssl_certificate_key /etc/nginx/ssl/bbb.key;
+  
+  # Tavsiye edilen güvenlik ayarları (zaten varsa dokunmayın)
+  ssl_session_cache shared:SSL:10m;
+  ssl_session_timeout 10m;
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+  ssl_prefer_server_ciphers off;
+```
+
+4. **Kayıt ve Nginx'i Yeniden Başlatmak:**
+```bash
+sudo nginx -t  # Sözdizimi (syntax) hatası var mı kontrol edin
+sudo systemctl restart nginx
+sudo bbb-conf --restart
+```
+
+## 2.5 Kurulum Sonrası (Post-Installation) Doğrulama
 
 Kurulum tamamlandığında ekranda "Potential Problems" vs. olup olmadığını kontrol edin.
 

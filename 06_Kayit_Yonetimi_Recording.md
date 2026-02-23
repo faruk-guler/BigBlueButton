@@ -69,3 +69,6 @@ Bu paketi kurarsanız, kayıtlar iki farklı formatta işlenir (hem sunum, hem s
 ## 6.5 Kayıtların Ortak Depolamaya (NFS vb.) Taşınması (Ölçeklendirme Ön Bilgisi)
 
 Birden çok BBB sunucusu kuruluysa (Scalelite), kayıt işleme bitene kadar yerel diskte tutulur. Publish olduklarında otomatik NFS'ye yani `/mnt/scalelite-recordings/` tarzı ortak bir paylaşıma taşınmaları (Transfer) sağlanır. Buna 8. Bölüm'de (Scalelite) detaylıca değinilecektir.
+
+> [!WARNING]
+> **NFS İzin Krizleri (Error: Presentation Not Found):** Kayıt (mp4) dosyalarının ortak NFS diskine başarıyla yazılıp diğer sunuculardan da okunabilmesi için Linux'ta NFS alanını sisteme bağlarken (mount ederken) `uid=1000,gid=1000` (Yani Bigbluebutton özel kullanıcısı) parametreleriyle tanımlamalısınız. Dosya sahipliği `root:root` olarak geçerse eski kayıtlar izlenemez hale gelir.

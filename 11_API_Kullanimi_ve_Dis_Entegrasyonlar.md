@@ -43,3 +43,18 @@ BBB sunucunuzu ayağa kaldırdıktan sonra bir okula bağlamak istiyorsanız:
 ## 11.4 Güvenlik İpuçları
 - API Sırrınız (Shared Secret) ele geçirilirse herkes sizin sunucunuz üzerinde oda açıp 1000 saatlik işlemler yaparak sunucu CPU'sunu sömürebilir. Sırrınızı kimseyle paylaşmayın.
 - Gerekirse sırrınızı değiştirmek için: `sudo bbb-conf --setsecret yenisifre_buraya`
+
+## 11.5 Webhooks (Anlık Olay Bildirimleri)
+
+BigBlueButton, periyodik olarak API'ye "Toplantı bitti mi? Biri girdi mi?" diye sormanız yerine, bir olay yaşandığında kendi sisteminize anında HTTP POST atılmasını sağlayan **bbb-webhooks** altyapısına sahiptir. 
+
+**Kullanım Senaryoları:**
+- Bir kullanıcı odaya bağlandığında LMS sisteminize "Katıldı" (UserJoined) sinyali gönderir.
+- Bir toplantının mp4 işlenmesi bittiğinde CRM panelinize "Kayıt Hazır" (RecordingReady) bildirimi ve linki ulaştırır.
+
+**Kurulum ve Kullanım:**
+Sunucunuzda kurulu gelmemiş olabilir, kurmak için:
+```bash
+sudo apt install bbb-webhooks
+```
+Kurulduktan sonra bir "Callback URL (Bildirimlerin gideceği adresiniz)" yaratmak için, `bbb-web` üzerinden `hooks/create` API çağrısı yapmalısınız (Klasik Checksum hesaplayarak). Kayıt işlemi başarılı olduktan sonra yaşanan webRTC olayları dahil tüm aksiyonlar uygulamanıza POST JSON verisi olarak akmaya başlayacaktır.
