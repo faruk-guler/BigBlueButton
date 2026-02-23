@@ -28,4 +28,3 @@ Bu repo altındaki dosyalar, BigBlueButton v3.0 mimarisi için tam bir SysAdmin 
 > **💡 İpucu:** `bbb-conf` komutu bu sistemin kalbidir. Sistemin durumunu hızlıca analiz etmek için her zaman `sudo bbb-conf --status` veya `sudo bbb-conf --check` komutlarını kullanabilirsiniz.
 
 ---
-🎯 *Bu dokümantasyon seti en modern **Ubuntu 22.04 LTS**, **Mediasoup** altyapısı ve **BigBlueButton v3.x** projeleri temel alınarak yazılmış, **2026 yılı güncel standartlarına** göre en ince detaylarına kadar test edilmiş ve onaylanmıştır.*
