@@ -1,0 +1,14 @@
+
+1: (self-signed) bir sertifika oluşturmak için:
+
+
+2: Nginx için Diffie-Hellman (DH) Parametresini Unutmayın:
+openssl dhparam -out /etc/nginx/ssl/dhp-4096.pem 2048
+
+3: Sertifikayı Cliente ve Servere Tanıtın:
+
+Server:
+cp /etc/nginx/ssl/bbb.guler.com.crt /usr/local/share/ca-certificates/bbb.guler.com.crt
+update-ca-certificates
+
+Client:manual
