@@ -1,4 +1,6 @@
 # BigBlueButton v3.x ve Ötesi - SysAdmin Rehberi 2026
+## Yazar: faruk-guler
+## Şubat 2026
 
 <img src="./img/bbb_main.png" alt="BBB Preview" width="50%">
 
