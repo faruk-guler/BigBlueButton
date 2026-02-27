@@ -2,6 +2,9 @@
 
 <img src="./img/bbb_main.png" alt="BBB Preview" width="50%">
 
+```console
+## Yazar: faruk-guler 2026
+```
 ## BigBlueButton (BBB) Nedir?
 BigBlueButton, özellikle uzaktan eğitim (e-learning) ve sanal sınıflar için tasarlanmış bağımsız, açık kaynaklı bir web konferans sistemidir. Sadece video konferans yapmakla kalmaz; beyaz tahta (whiteboard), breakout odaları (kırılım odaları), anketler ve ekran paylaşımı gibi eğitime yönelik araçları varsayılan olarak sunar. Öğrencilerin veya katılımcıların herhangi bir program indirmesine gerek kalmadan doğrudan tarayıcı (HTML5) üzerinden toplantılara katılmasını sağlar.
 
